@@ -86,22 +86,31 @@ algorithm("Newton")
 test('NormDispIncr',1e-8, 6)
 analysis("Static")
 analyze(NstepGravity)
+
+loadConst('-time', 0.0)
+print("Model Built")
+
+timeSeries('Path',702, '-filePath','fp.txt','-dt',1e-4)
+pattern('Plain',703, 702)
+load(3, 0, -1,0)
+
 print("finish analyze:0 ~ 0.8s")
 
-# system("UmfPack")
-# numberer("RCM")
-# constraints("Transformation")
-# integrator("Newmark", 0.5, 0.25)
-# algorithm("Newton")
-# test('EnergyIncr',1e-8, 200)
-# analysis("Transient")
-# analyze(8000,1e-4)
-# print("finish analyze:0 ~ 0.8s")
+wipeAnalysis()	
+system("UmfPack")
+numberer("RCM")
+constraints("Transformation")
+integrator("Newmark", 0.5, 0.25)
+algorithm("Newton")
+test('EnergyIncr',1e-8, 200)
+analysis("Transient")
+analyze(8000,1e-4)
+print("finish analyze:0 ~ 0.8s")
 
 
-ops.plot_model() 
+# ops.plot_model() 
 # ops.plot_loads_2d() # watch loads
-# ops.section_force_diagram_2d("M", sfac = 5e-5) # 'V'/'M' watch shearforce/ Moment
+ops.section_force_diagram_2d("V", sfac = 5e-5) # 'V'/'M' watch shearforce/ Moment
 # ops.plot_defo()   # watch deformation
 plt.show()
 
